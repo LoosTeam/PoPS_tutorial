@@ -5,7 +5,13 @@ PoPS has been made availble as an environment module in the `loos_group-AUDIT` f
 
 > ✏️ **_NOTE:_** Please note that you need to be added to the `loos_group-AUDIT` folder on [Esrum](https://cbmr-data.github.io/esrum/) to be able to access and run this tool as demonstrated here. If you have not already been added to this folder, then [contact me](#contact-for-help) for help. 
 
-## Loading modules
+The data used for this tutorial is a set of publicly available summary statistics for schizophrenia, same as that used in the paper. PoPS is run in 3 steps - 
+
+- Step 0: Munge features - `munge_feature_directory.py` accepts a directory of feature files and processes them into a more efficient format for downstream usage.
+- Step 1: Generate MAGMA scores - MAGMA analysis is performed in 2 steps, **annotation** and **gene analysis**, to generate gene-level association statistics that are used as input for PoPS.
+- Step 2: Run PoPS - `pops.py` is run using the MAGMA analysis output, and the processed feature files to generate
+
+## 1. Loading modules
 
 
 ```
