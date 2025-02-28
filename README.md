@@ -28,17 +28,23 @@ munge_feature_directory.py \
  --save_prefix outputs/pops_features \
  --max_cols 500
 ```
-
+| Flag | Description |
+|-|-|
+| --gene_annot_path | Path to gene annotation table. For the purposes of this script, only require that there is an ENSGID column |
+| --feature_dir | Directory where raw feature files live. Each feature file must be a tab-separated file with a header for column names and the first column must be the ENSGID. Will process every file in the directory so make sure every file is a feature file and there are no hidden files. Please also make sure the column names are unique across all feature files. The easiest way to ensure this is to prefix every column with the filename |
+| --nan_policy | What to do if a feature file is missing ENSGIDs that are in gene_annot_path. Takes the values "raise" (raise an error), "ignore" (ignore and write out with nans), "mean" (impute the mean of the feature), and "zero" (impute 0). Default is "raise" |
+| --save_prefix | Prefix to the output path. For each chunk i, 2 files will be written: {save_prefix}_mat.{i}.npy, {save_prefix}_cols.{i}.txt. Furthermore, row data will be written to {save_prefix}_rows.txt |
+| --max_cols | Maximum number of columns per output chunk. Default is 5000 |
 
 ## 3. Run step 1
+The first MAGMA step generates 
 ### 3.1 MAGMA `annotation`
 ```
 magma \
---bfile {PATH_TO_REFERENCE_PANEL_PLINK} \
---gene-annot {PATH_TO_MAGMA_ANNOT}.genes.annot \
---pval {PATH_TO_SUMSTATS}.sumstats ncol=N \
---gene-model snp-wise=mean \
---out {OUTPUT_PREFIX}
+--annotate \
+--snp-loc [SNPLOC_FILE] \
+--gene-loc [GENELOC_FILE] \
+--out [OUTPUT_PREFIX]
 ```
 
 ### 3.1 MAGMA `gene analysis`
