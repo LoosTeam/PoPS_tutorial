@@ -20,11 +20,17 @@ module use --prepend /projects/loos_group-AUDIT/apps/modules/modulefiles/
 module load PoPS/v0.2
 module load MAGMA/v1.10 
 ```
+Loading these modules will give you access to the different scripts used for PoPS. You can check if it is correctly loaded with these commands: 
+```
+munge_feature_directory.py -h
+pops.py -h
+magma
+```
 
 ## 2. Run step 0
 ```
 munge_feature_directory.py \
- --gene_annot_path gene_annot_jun10.txt \
+ --gene_annot_path example_data/gene_annot_jun10.txt \
  --save_prefix outputs/pops_features \
  --max_cols 500
 ```
