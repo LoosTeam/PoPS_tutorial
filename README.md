@@ -28,6 +28,7 @@ magma
 ```
 
 ## Run step 0: Munge features
+This step processes the feature files and and converts them into a more efficient format for downstream usage. This command can be run as is, without any modifications.
 
 This step can be run using the script [step_0.sh](scripts/step_0.sh). 
 
@@ -61,6 +62,12 @@ magma \
  --gene-loc example_data/gene_annot_jun10_modified.txt \
  --out outputs/magma_annot_Schizophrenia
 ```
+| Flag | Description |
+|-|-|
+| --annotate | Used to specify MAGMA annotation step |
+| --snp-loc | SNP location file / GWAS summary statistics - The file should contain three columns: SNP ID, chromosome, and base pair position. These should be the first three columns in that file (additional columns are ignored). |
+| --gene-loc | Gene location file - Thsi file contains gene locations. Here we use `gene_annot_jun10_modified.txt` that is defined in build **GRCh37 (hg19)**, and derived from the `gene_annot_jun10.txt` file decribed in the previous step. You can use the same file for your analysis.  |
+
 
 ### Step 1.2 MAGMA `gene analysis`
 
@@ -82,6 +89,8 @@ magma \
 
 PoPS has several flags that can be modified, refer to [this section](#loading-modules) for help.
 
+
+
 ```
 pops.py \
  --gene_annot_path example_data/gene_annot_jun10.txt \
@@ -94,9 +103,9 @@ pops.py \
 
 | Flag | Description |
 |-|-|
-| --gene_annot_path | Path to tab-separated gene annotation file. Must contain ENSGID, CHR, and TSS columns |
+| --gene_annot_path | Path to tab-separated gene annotation file. Must contain ENSGID, CHR, and TSS columns. Here we use gene_annot_jun10.txt, which is provided in the PoPS repository, and should be applicable to most tasks. |
 | --feature_mat_prefix | Prefix to the split feature matrix files, such as those outputted by munge_feature_directory.py. There must be .mat.*.npy files, .cols.*.txt files, and a .rows.txt file |
-| --num_feature_chunks | Prefix to the gene-level association statistics outputted by MAGMA. There must be a .genes.out file and a .genes.raw file |
+| --num_feature_chunks | The number of feature matrix chunks, such as those outputted by munge_feature_directory.py |
 | --magma_prefix | Prefix to the gene-level association statistics outputted by MAGMA. There must be a .genes.out file and a .genes.raw file |
 | --control_features_path | Optional path to list of features (one per line) to always include |
 | --out_prefix | Prefix that results will be saved with. Will write out a .preds, .coefs, and .marginals file |
