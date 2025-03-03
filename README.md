@@ -51,7 +51,7 @@ MAGMA is performed in 2 steps, and the parameters shown here are specific to run
 ### Step 1.1 MAGMA `annotation`
 The first step is a pre-processing step, which maps SNPs to genes. The mapping is based on genomic location, assigning a SNP to a gene if the SNP’s location falls inside the region provided for each gene; typically this region is defined by the transcription start and stop sites of that gene. 
 
-The `--snp-loc` file should contain three columns: SNP ID, chromosome, and base pair position. These should be the first three columns in that file (additional columns are ignored). The `gene-loc` file contains gene locations in `gene_annot_jun10_modified.txt` that are defined in build **GRCh37 (hg19)**, and derived from the `gene_annot_jun10.txt` file decribed in the previous step. You can use the same file for your analysis. 
+The `--snp-loc` file should contain three columns: SNP ID, chromosome, and base pair position. These should be the first three columns in that file (additional columns are ignored). The `--gene-loc` file contains gene locations in `gene_annot_jun10_modified.txt` that are defined in build **GRCh37 (hg19)**, and derived from the `gene_annot_jun10.txt` file decribed in the previous step. You can use the same file for your analysis. 
 
 This step can be run using the script [step_1.1.sh](scripts/step_1.1.sh). 
 ```
@@ -64,9 +64,9 @@ magma \
 
 ### Step 1.2 MAGMA `gene analysis`
 
-In the gene analysis step the gene p-values and other gene-level metrics are computed. Correlations between neighbouring genes are computed as well, in preparation for the gene-level analysis. The gene analysis results are output into a formatted output file with .genes.out suffix. The same results plus gene correlations are also stored in a .genes.raw file, which serves as input for subsequent gene-level analysis.
+In the gene analysis step the gene p-values and other gene-level metrics are computed. The gene analysis results are output into a formatted output file with .genes.out suffix. The same results plus gene correlations with neighbouring genes are stored in a .genes.raw file
 
-Here the LD reference panel used is 1000 genomes EUR population. Other MAGMA specific LD-panels are available at `/projects/loos_group-AUDIT/data/magma_data/ref_panels/`. 
+Here the LD reference panel used is 1000 genomes EUR population. Other MAGMA specific LD-panels are available at `/projects/loos_group-AUDIT/data/magma_data/ref_panels/`. The `--gene-annot` file should be the .annot file from the output of the MAGMA annotation step.
 ```
 magma \
  --bfile /projects/loos_group-AUDIT/data/magma_data/ref_panels/1000g/g1000_eur/g1000_eur \
