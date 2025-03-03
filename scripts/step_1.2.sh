@@ -8,7 +8,7 @@ module use --prepend /projects/loos_group-AUDIT/apps/modules/modulefiles/
 module load MAGMA/v1.10 
 
 #Change path to the directory where you want to run PoPS
-cd /home/qzt831/loos_group-AUDIT/people/qzt831/pops_test/
+cd /projects/loos_group-AUDIT/data/pops_tutorial/
 
 magma \
  --bfile /projects/loos_group-AUDIT/data/magma_data/ref_panels/1000g/g1000_eur/g1000_eur \

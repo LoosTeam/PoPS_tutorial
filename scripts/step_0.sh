@@ -9,10 +9,10 @@ module use --prepend /projects/loos_group-AUDIT/apps/modules/modulefiles/
 module load PoPS/v0.2
 
 #Change path to the directory where you want to run PoPS
-cd /home/qzt831/loos_group-AUDIT/people/qzt831/pops_test/
+cd /projects/loos_group-AUDIT/data/pops_tutorial/
 
 #Remember to update paths for files
 munge_feature_directory.py \
- --gene_annot_path example_data/gene_annot_jun10.txt \
+ --gene_annot_path /projects/loos_group-AUDIT/data/pops_data/gene_annot_jun10.txt \
  --save_prefix outputs/pops_features \
  --max_cols 500
