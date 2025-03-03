@@ -117,6 +117,8 @@ pops.py \
 | --out_prefix | Prefix that results will be saved with. Will write out a .preds, .coefs, and .marginals file |
 | --verbose | Set this flag to get verbose output |
 
-# Contact for help
-Siddhi Jain
+# Contact
+Please contact me if you need help or have any suggestions/feedback/ideas :)
+
+**Siddhi Jain**
 siddhi.jain@sund.ku.dk
