@@ -66,7 +66,9 @@ magma \
 
 In the gene analysis step the gene p-values and other gene-level metrics are computed. The gene analysis results are output into a formatted output file with .genes.out suffix. The same results plus gene correlations with neighbouring genes are stored in a .genes.raw file
 
-Here the LD reference panel used is 1000 genomes EUR population. Other MAGMA specific LD-panels are available at `/projects/loos_group-AUDIT/data/magma_data/ref_panels/`. The `--gene-annot` file should be the .annot file from the output of the MAGMA annotation step.
+Here the LD reference panel used is 1000 genomes EUR population. Other MAGMA specific LD-panels are available at `/projects/loos_group-AUDIT/data/magma_data/ref_panels/`. The `--gene-annot` file should be the .annot file from the output of the MAGMA annotation step. `--pval` is used to specify the GWAS summary statistics file. It must be a plain text data file with each row corresponding to a SNP. MAGMA will look for SNP IDs and p-values in the SNP and P column respectively. Use `N`to specify sample size directly or `ncol` to specify sample size column in the summary statistics.
+
+This step can be run using the script [step_1.2.sh](scripts/step_1.2.sh). 
 ```
 magma \
  --bfile /projects/loos_group-AUDIT/data/magma_data/ref_panels/1000g/g1000_eur/g1000_eur \
