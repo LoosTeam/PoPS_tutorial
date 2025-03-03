@@ -37,66 +37,41 @@ munge_feature_directory.py \
  --save_prefix outputs/pops_features \
  --max_cols 500
 ```
-<table>
-  <colgroup>
-    <col style="width: 30%;">
-    <col style="width: 70%;">
-  </colgroup>
-  <thead>
-    <tr>
-      <th>Flag</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>--gene_annot_path</code></td>
-      <td>Path to gene annotation table. For the purposes of this script, only require that there is an ENSGID column. Here we use <em>gene_annot_jun10.txt</em>, which is provided in the PoPS repository, and should be applicable to most tasks.</td>
-    </tr>
-    <tr>
-      <td><code>--feature_dir</code></td>
-      <td>Directory where raw feature files live. Each feature file must be a tab-separated file with a header for column names and the first column must be the ENSGID. Will process every file in the directory so make sure every file is a feature file and there are no hidden files. Please also make sure the column names are unique across all feature files. The easiest way to ensure this is to prefix every column with the filename. ✏️ <strong><em>NOTE:</em></strong> Here the default features are those used in the manuscript, find link <a href="https://github.com/FinucaneLab/pops/issues/7">here</a>.</td>
-    </tr>
-    <tr>
-      <td><code>--nan_policy</code></td>
-      <td>What to do if a feature file is missing ENSGIDs that are in <code>gene_annot_path</code>. Takes the values "raise" (raise an error), "ignore" (ignore and write out with nans), "mean" (impute the mean of the feature), and "zero" (impute 0). Default is "raise".</td>
-    </tr>
-    <tr>
-      <td><code>--save_prefix</code></td>
-      <td>Prefix to the output path. For each chunk <code>i</code>, 2 files will be written: <code>{save_prefix}_mat.{i}.npy</code>, <code>{save_prefix}_cols.{i}.txt</code>. Furthermore, row data will be written to <code>{save_prefix}_rows.txt</code>.</td>
-    </tr>
-    <tr>
-      <td><code>--max_cols</code></td>
-      <td>Maximum number of columns per output chunk. Default is 5000.</td>
-    </tr>
-  </tbody>
-</table>
+| Flag | Description |
+|-|-|
+| --gene_annot_path | Path to gene annotation table. For the purposes of this script, only require that there is an ENSGID column. Here we use *gene_annot_jun10.txt*, which is provided in the PoPS repository, and should be applicable to most tasks.  |
+| --feature_dir | Directory where raw feature files live. Each feature file must be a tab-separated file with a header for column names and the first column must be the ENSGID. Will process every file in the directory so make sure every file is a feature file and there are no hidden files. Please also make sure the column names are unique across all feature files. The easiest way to ensure this is to prefix every column with the filename. ✏️ **_NOTE:_** Here the default features are those used in the manuscript, find link [here](https://github.com/FinucaneLab/pops/issues/7). |
+| --nan_policy | What to do if a feature file is missing ENSGIDs that are in gene_annot_path. Takes the values "raise" (raise an error), "ignore" (ignore and write out with nans), "mean" (impute the mean of the feature), and "zero" (impute 0). Default is "raise" |
+| --save_prefix | Prefix to the output path. For each chunk i, 2 files will be written: {save_prefix}_mat.{i}.npy, {save_prefix}_cols.{i}.txt. Furthermore, row data will be written to {save_prefix}_rows.txt |
+| --max_cols | Maximum number of columns per output chunk. Default is 5000 |
 
 ## Run step 1: Generate MAGMA scores
-The first MAGMA step generates 
-### Step 1.1 MAGMA `annotation`
-```
-magma \
---annotate \
---snp-loc [SNPLOC_FILE] \
---gene-loc [GENELOC_FILE] \
---out [OUTPUT_PREFIX]
+MAGMA is performed in 2 steps, and the parameters shown here are specific to running PoPS.  
 
+### Step 1.1 MAGMA `annotation`
+The first step is a pre-processing step, which maps SNPs to genes. The mapping is based on genomic location, assigning a SNP to a gene if the SNP’s location falls inside the region provided for each gene; typically this region is defined by the transcription start and stop sites of that gene. 
+
+Here the gene locations are defined in **GRCh37 (hg19)**, and derived from the *gene_annot_jun10.txt* file decribed in the previous step. This step can be run using the script [step_1.1.sh](scripts/step_1.1.sh). 
+```
 magma \
  --annotate \
  --snp-loc example_data/Schizophrenia_sumstats.txt \
- --gene-loc /projects/loos_group-AUDIT/data/magma_data/gene_loc/NCBI37.3/NCBI37.3.gene.loc \
+ --gene-loc example_data/gene_annot_jun10_modified.txt \
  --out outputs/magma_annot_Schizophrenia
 ```
 
 ### Step 1.2 MAGMA `gene analysis`
+
+In the gene analysis step the gene p-values and other gene-level metrics are computed. Correlations between neighbouring genes are computed as well, in preparation for the gene-level analysis. The gene analysis results are output into a formatted output file with .genes.out suffix. The same results plus gene correlations are also stored in a .genes.raw file, which serves as input for subsequent gene-level analysis.
+
+Here
 ```
 magma \
---bfile {PATH_TO_REFERENCE_PANEL_PLINK} \
---gene-annot {PATH_TO_MAGMA_ANNOT}.genes.annot \
---pval {PATH_TO_SUMSTATS}.sumstats ncol=N \
---gene-model snp-wise=mean \
---out {OUTPUT_PREFIX}
+ --bfile /projects/loos_group-AUDIT/data/magma_data/ref_panels/1000g/g1000_eur/g1000_eur \
+ --gene-annot outputs/magma_annot_Schizophrenia.genes.annot \
+ --pval example_data/Schizophrenia_sumstats.txt N=65967 \
+ --gene-model snp-wise=mean \
+ --out outputs/magma_gene_anal_Schizophrenia
 ```
 
 ## Run step 2: Run PoPS
