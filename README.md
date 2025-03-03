@@ -3,13 +3,13 @@ PoPS is a gene prioritization method that can be applied to GWAS summary statist
 
 PoPS has been made availble as an environment module in the `loos_group-AUDIT` folder on Esrum. This tutorial describes how you can load PoPS and associated tools, and run the program from start to finish. You can find the tutorial scripts at `/projects/loos_group-AUDIT/data/pops_tutorial/`
 
-> ✏️ **_NOTE:_** Please note that you need to be added to the `loos_group-AUDIT` folder on [Esrum](https://cbmr-data.github.io/esrum/) to be able to access and run this tool as demonstrated here. If you have not already been added to this folder, then [contact me](#contact-for-help) for help. 
+> ✏️ **_NOTE:_** Please note that you need to be added to the `loos_group-AUDIT` folder on [Esrum](https://cbmr-data.github.io/esrum/) to be able to access and run this tool as demonstrated here. If you have not already been added to this folder, then [contact me](#contact) for help. 
 
 The data used for this tutorial is a set of publicly available summary statistics for schizophrenia, same as that used in the paper. PoPS is run in 3 steps - 
 
-- [Step 0: Munge features](#2-run-step-0-munge-features) - `munge_feature_directory.py` accepts a directory of feature files and processes them into a more efficient format for downstream usage.
-- [Step 1: Generate MAGMA scores](#3-run-step-1-generate-magma-scores) - MAGMA analysis is performed in 2 steps, **annotation** and **gene analysis**, to generate gene-level association statistics that are used as input for PoPS. You can find the documentation [here](https://cncr.nl/research/magma/).
-- [Step 2: Run PoPS](#4-run-step-2-run-pops) - `pops.py` is run using the MAGMA analysis output, and the processed feature files to generate gene priority scores.
+- [Step 0: Munge features](#run-step-0-munge-features) - `munge_feature_directory.py` accepts a directory of feature files and processes them into a more efficient format for downstream usage.
+- [Step 1: Generate MAGMA scores](#run-step-1-generate-magma-scores) - MAGMA analysis is performed in 2 steps, **annotation** and **gene analysis**, to generate gene-level association statistics that are used as input for PoPS. You can find the documentation [here](https://cncr.nl/research/magma/).
+- [Step 2: Run PoPS](#run-step-2-run-pops) - `pops.py` is run using the MAGMA analysis output, and the processed feature files to generate gene priority scores.
 
 ## Loading modules
 The modules PoPS and MAGMA need to be loaded to be able to access them. It is good practice to `purge` all loaded modules to avoid clashes in versions when loading new modules.
