@@ -10,6 +10,7 @@ module load PoPS/v0.2
 
 #Change path to the directory where you want to run PoPS
 cd /projects/loos_group-AUDIT/data/pops_tutorial/
+mkdir outputs
 
 #Remember to update paths for files
 munge_feature_directory.py \
