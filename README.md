@@ -20,7 +20,7 @@ module use --prepend /projects/loos_group-AUDIT/apps/modules/modulefiles/
 module load PoPS/v0.2
 module load MAGMA/v1.10 
 ```
-Loading these modules will give you access to the different scripts used for PoPS. You can check if it is correctly loaded with these commands: 
+Loading these modules will give you access to the different scripts used for PoPS. You can use these commands to check if the modules are loading properly, and also to view additional flags for the tools: 
 ```
 munge_feature_directory.py -h
 pops.py -h
@@ -80,6 +80,17 @@ magma \
 
 ## Run step 2: Run PoPS
 
+PoPS has several flags that can be modified, refer to [this section](#loading-modules) for help.
+
+```
+pops.py \
+ --gene_annot_path example_data/gene_annot_jun10.txt \
+ --feature_mat_prefix outputs/pops_features \
+ --num_feature_chunks 116 \
+ --magma_prefix outputs/magma_gene_anal_Schizophrenia \
+ --control_features_path example_data/features_jul17_control.txt \
+ --out_prefix outputs/pops_out_Schizophrenia
+```
 
 | Flag | Description |
 |-|-|
