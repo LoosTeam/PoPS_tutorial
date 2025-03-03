@@ -37,13 +37,40 @@ munge_feature_directory.py \
  --save_prefix outputs/pops_features \
  --max_cols 500
 ```
-| Flag | Description |
-|-|-|
-| --gene_annot_path | Path to gene annotation table. For the purposes of this script, only require that there is an ENSGID column. Here we use *gene_annot_jun10.txt*, which is provided in the PoPS repository, and should be applicable to most tasks.  |
-| --feature_dir | Directory where raw feature files live. Each feature file must be a tab-separated file with a header for column names and the first column must be the ENSGID. Will process every file in the directory so make sure every file is a feature file and there are no hidden files. Please also make sure the column names are unique across all feature files. The easiest way to ensure this is to prefix every column with the filename. ✏️ **_NOTE:_** Here the default features are those used in the manuscript, find link [here](https://github.com/FinucaneLab/pops/issues/7). |
-| --nan_policy | What to do if a feature file is missing ENSGIDs that are in gene_annot_path. Takes the values "raise" (raise an error), "ignore" (ignore and write out with nans), "mean" (impute the mean of the feature), and "zero" (impute 0). Default is "raise" |
-| --save_prefix | Prefix to the output path. For each chunk i, 2 files will be written: {save_prefix}_mat.{i}.npy, {save_prefix}_cols.{i}.txt. Furthermore, row data will be written to {save_prefix}_rows.txt |
-| --max_cols | Maximum number of columns per output chunk. Default is 5000 |
+<table>
+  <colgroup>
+    <col style="width: 30%;">
+    <col style="width: 70%;">
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>--gene_annot_path</code></td>
+      <td>Path to gene annotation table. For the purposes of this script, only require that there is an ENSGID column. Here we use <em>gene_annot_jun10.txt</em>, which is provided in the PoPS repository, and should be applicable to most tasks.</td>
+    </tr>
+    <tr>
+      <td><code>--feature_dir</code></td>
+      <td>Directory where raw feature files live. Each feature file must be a tab-separated file with a header for column names and the first column must be the ENSGID. Will process every file in the directory so make sure every file is a feature file and there are no hidden files. Please also make sure the column names are unique across all feature files. The easiest way to ensure this is to prefix every column with the filename. ✏️ <strong><em>NOTE:</em></strong> Here the default features are those used in the manuscript, find link <a href="https://github.com/FinucaneLab/pops/issues/7">here</a>.</td>
+    </tr>
+    <tr>
+      <td><code>--nan_policy</code></td>
+      <td>What to do if a feature file is missing ENSGIDs that are in <code>gene_annot_path</code>. Takes the values "raise" (raise an error), "ignore" (ignore and write out with nans), "mean" (impute the mean of the feature), and "zero" (impute 0). Default is "raise".</td>
+    </tr>
+    <tr>
+      <td><code>--save_prefix</code></td>
+      <td>Prefix to the output path. For each chunk <code>i</code>, 2 files will be written: <code>{save_prefix}_mat.{i}.npy</code>, <code>{save_prefix}_cols.{i}.txt</code>. Furthermore, row data will be written to <code>{save_prefix}_rows.txt</code>.</td>
+    </tr>
+    <tr>
+      <td><code>--max_cols</code></td>
+      <td>Maximum number of columns per output chunk. Default is 5000.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Run step 1: Generate MAGMA scores
 The first MAGMA step generates 
@@ -73,6 +100,17 @@ magma \
 ```
 
 ## Run step 2: Run PoPS
+
+
+| Flag | Description |
+|-|-|
+| --gene_annot_path | Path to tab-separated gene annotation file. Must contain ENSGID, CHR, and TSS columns |
+| --feature_mat_prefix | Prefix to the split feature matrix files, such as those outputted by munge_feature_directory.py. There must be .mat.*.npy files, .cols.*.txt files, and a .rows.txt file |
+| --num_feature_chunks | Prefix to the gene-level association statistics outputted by MAGMA. There must be a .genes.out file and a .genes.raw file |
+| --magma_prefix | Prefix to the gene-level association statistics outputted by MAGMA. There must be a .genes.out file and a .genes.raw file |
+| --control_features_path | Optional path to list of features (one per line) to always include |
+| --out_prefix | Prefix that results will be saved with. Will write out a .preds, .coefs, and .marginals file |
+| --verbose | Set this flag to get verbose output |
 
 # Contact for help
 Siddhi Jain
