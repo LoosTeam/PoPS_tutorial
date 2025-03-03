@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Send notifications when job ends. Remember to update the email address!
-#SBATCH --mail-user=qzt831@ku.dk --mail-type=END,FAIL
+#SBATCH --mail-user=abc123@ku.dk --mail-type=END,FAIL
 
 module purge
 module use --prepend /projects/loos_group-AUDIT/apps/modules/modulefiles/
