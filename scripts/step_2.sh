@@ -11,6 +11,7 @@ module load PoPS/v0.2
 #Change path to the directory where you want to run PoPS
 cd /projects/loos_group-AUDIT/data/pops_tutorial/
 
+#Remember to update paths for files
 pops.py \
  --gene_annot_path /projects/loos_group-AUDIT/data/pops_data/gene_annot_jun10.txt \
  --feature_mat_prefix outputs/pops_features \

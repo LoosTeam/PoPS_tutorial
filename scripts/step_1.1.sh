@@ -9,6 +9,8 @@ module load MAGMA/v1.10
 
 #Change path to the directory where you want to run PoPS
 cd /projects/loos_group-AUDIT/data/pops_tutorial/
+
+#Remember to update paths for files
 magma \
  --annotate \
  --snp-loc example_data/Schizophrenia_sumstats.txt \
