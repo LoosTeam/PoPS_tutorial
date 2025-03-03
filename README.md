@@ -52,8 +52,6 @@ MAGMA is performed in 2 steps, and the parameters shown here are specific to run
 ### Step 1.1 MAGMA `annotation`
 The first step is a pre-processing step, which maps SNPs to genes. The mapping is based on genomic location, assigning a SNP to a gene if the SNP’s location falls inside the region provided for each gene; typically this region is defined by the transcription start and stop sites of that gene. 
 
-The `--snp-loc` file should contain three columns: SNP ID, chromosome, and base pair position. These should be the first three columns in that file (additional columns are ignored). The `--gene-loc` file contains gene locations in `gene_annot_jun10_modified.txt` that are defined in build **GRCh37 (hg19)**, and derived from the `gene_annot_jun10.txt` file decribed in the previous step. You can use the same file for your analysis. 
-
 This step can be run using the script [step_1.1.sh](scripts/step_1.1.sh). 
 ```
 magma \
@@ -66,14 +64,15 @@ magma \
 |-|-|
 | --annotate | Used to specify MAGMA annotation step |
 | --snp-loc | SNP location file / GWAS summary statistics - The file should contain three columns: SNP ID, chromosome, and base pair position. These should be the first three columns in that file (additional columns are ignored). |
-| --gene-loc | Gene location file - Thsi file contains gene locations. Here we use `gene_annot_jun10_modified.txt` that is defined in build **GRCh37 (hg19)**, and derived from the `gene_annot_jun10.txt` file decribed in the previous step. You can use the same file for your analysis.  |
+| --gene-loc | Gene location file - This file contains gene locations. Here we use `gene_annot_jun10_modified.txt` that is defined in build **GRCh37 (hg19)**, and derived from the `gene_annot_jun10.txt` file decribed in the previous step. You can use the same file for your analysis. |
+| --out | Output prefix |
 
 
 ### Step 1.2 MAGMA `gene analysis`
 
 In the gene analysis step the gene p-values and other gene-level metrics are computed. The gene analysis results are output into a formatted output file with .genes.out suffix. The same results plus gene correlations with neighbouring genes are stored in a .genes.raw file
 
-Here the LD reference panel used is 1000 genomes EUR population. Other MAGMA specific LD-panels are available at `/projects/loos_group-AUDIT/data/magma_data/ref_panels/`. The `--gene-annot` file should be the .annot file from the output of the MAGMA annotation step. `--pval` is used to specify the GWAS summary statistics file. It must be a plain text data file with each row corresponding to a SNP. MAGMA will look for SNP IDs and p-values in the SNP and P column respectively. Use `N`to specify sample size directly or `ncol` to specify sample size column in the summary statistics.
+ 
 
 This step can be run using the script [step_1.2.sh](scripts/step_1.2.sh). 
 ```
@@ -85,11 +84,18 @@ magma \
  --out outputs/magma_gene_anal_Schizophrenia
 ```
 
+| Flag | Description |
+|-|-|
+| --bfile | LD reference panel - Here the LD reference panel used is 1000 genomes EUR population. Other MAGMA specific LD-panels are available at `/projects/loos_group-AUDIT/data/magma_data/ref_panels/`.|
+| --gene-annot | Gene annotation file from the output of the previous MAGMA annotation step. |
+| --pval | GWAS summary statistics - It must be a plain text data file with each row corresponding to a SNP. MAGMA will look for SNP IDs and p-values in the SNP and P column respectively. |
+| N | Sample size - Use `N`to specify sample size directly or `ncol` to specify sample size column in the summary statistics. |
+| --out | Output prefix |
+
+
 ## Run step 2: Run PoPS
 
 PoPS has several flags that can be modified, refer to [this section](#loading-modules) for help.
-
-
 
 ```
 pops.py \
