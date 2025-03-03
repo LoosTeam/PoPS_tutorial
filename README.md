@@ -40,7 +40,7 @@ munge_feature_directory.py \
 ```
 | Flag | Description |
 |-|-|
-| --gene_annot_path | Path to gene annotation table. For the purposes of this script, only require that there is an ENSGID column. Here we use ?`gene_annot_jun10.txt`, which is provided in the PoPS repository, and should be applicable to most tasks.  |
+| --gene_annot_path | Path to gene annotation table. For the purposes of this script, only require that there is an ENSGID column. Here we use `gene_annot_jun10.txt`, which is provided in the PoPS repository, and should be applicable to most tasks.  |
 | --feature_dir | Directory where raw feature files live. Each feature file must be a tab-separated file with a header for column names and the first column must be the ENSGID. Will process every file in the directory so make sure every file is a feature file and there are no hidden files. Please also make sure the column names are unique across all feature files. The easiest way to ensure this is to prefix every column with the filename. ✏️ **_NOTE:_** Here the default features are those used in the manuscript, find link [here](https://github.com/FinucaneLab/pops/issues/7). |
 | --nan_policy | What to do if a feature file is missing ENSGIDs that are in gene_annot_path. Takes the values "raise" (raise an error), "ignore" (ignore and write out with nans), "mean" (impute the mean of the feature), and "zero" (impute 0). Default is "raise" |
 | --save_prefix | Prefix to the output path. For each chunk i, 2 files will be written: {save_prefix}_mat.{i}.npy, {save_prefix}_cols.{i}.txt. Furthermore, row data will be written to {save_prefix}_rows.txt |
