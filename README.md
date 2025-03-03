@@ -11,7 +11,7 @@ The data used for this tutorial is a set of publicly available summary statistic
 - [Step 1: Generate MAGMA scores](#3-run-step-1-generate-magma-scores) - MAGMA analysis is performed in 2 steps, **annotation** and **gene analysis**, to generate gene-level association statistics that are used as input for PoPS. You can find the documentation [here](https://cncr.nl/research/magma/).
 - [Step 2: Run PoPS](#4-run-step-2-run-pops) - `pops.py` is run using the MAGMA analysis output, and the processed feature files to generate gene priority scores.
 
-## 1. Loading modules
+## Loading modules
 The modules PoPS and MAGMA need to be loaded to be able to access them. It is good practice to `purge` all loaded modules to avoid clashes in versions when loading new modules.
 
 ```
@@ -27,7 +27,10 @@ pops.py -h
 magma
 ```
 
-## 2. Run step 0: Munge features
+## Run step 0: Munge features
+
+This step can be run using the script [step_0.sh](scripts/step_0.sh). 
+
 ```
 munge_feature_directory.py \
  --gene_annot_path example_data/gene_annot_jun10.txt \
@@ -36,24 +39,30 @@ munge_feature_directory.py \
 ```
 | Flag | Description |
 |-|-|
-| --gene_annot_path | Path to gene annotation table. For the purposes of this script, only require that there is an ENSGID column |
+| --gene_annot_path | Path to gene annotation table. For the purposes of this script, only require that there is an ENSGID column. Here we use *gene_annot_jun10.txt*, which is provided in the PoPS repository, and should be applicable to most tasks.  |
 | --feature_dir | Directory where raw feature files live. Each feature file must be a tab-separated file with a header for column names and the first column must be the ENSGID. Will process every file in the directory so make sure every file is a feature file and there are no hidden files. Please also make sure the column names are unique across all feature files. The easiest way to ensure this is to prefix every column with the filename. ✏️ **_NOTE:_** Here the default features are those used in the manuscript, find link [here](https://github.com/FinucaneLab/pops/issues/7). |
 | --nan_policy | What to do if a feature file is missing ENSGIDs that are in gene_annot_path. Takes the values "raise" (raise an error), "ignore" (ignore and write out with nans), "mean" (impute the mean of the feature), and "zero" (impute 0). Default is "raise" |
 | --save_prefix | Prefix to the output path. For each chunk i, 2 files will be written: {save_prefix}_mat.{i}.npy, {save_prefix}_cols.{i}.txt. Furthermore, row data will be written to {save_prefix}_rows.txt |
 | --max_cols | Maximum number of columns per output chunk. Default is 5000 |
 
-## 3. Run step 1: Generate MAGMA scores
+## Run step 1: Generate MAGMA scores
 The first MAGMA step generates 
-### 3.1 MAGMA `annotation`
+### Step 1.1 MAGMA `annotation`
 ```
 magma \
 --annotate \
 --snp-loc [SNPLOC_FILE] \
 --gene-loc [GENELOC_FILE] \
 --out [OUTPUT_PREFIX]
+
+magma \
+ --annotate \
+ --snp-loc example_data/Schizophrenia_sumstats.txt \
+ --gene-loc /projects/loos_group-AUDIT/data/magma_data/gene_loc/NCBI37.3/NCBI37.3.gene.loc \
+ --out outputs/magma_annot_Schizophrenia
 ```
 
-### 3.1 MAGMA `gene analysis`
+### Step 1.2 MAGMA `gene analysis`
 ```
 magma \
 --bfile {PATH_TO_REFERENCE_PANEL_PLINK} \
@@ -63,7 +72,7 @@ magma \
 --out {OUTPUT_PREFIX}
 ```
 
-## 4. Run step 2: Run PoPS
+## Run step 2: Run PoPS
 
 # Contact for help
 Siddhi Jain
