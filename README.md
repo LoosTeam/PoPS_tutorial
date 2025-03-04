@@ -1,7 +1,7 @@
 # Tutorial for running PoPS on Esrum
 PoPS is a gene prioritization method that can be applied to GWAS summary statistics. You can find the official Github [here](https://github.com/FinucaneLab/pops), and the publication [here](https://doi.org/10.1038/s41588-023-01443-6).
 
-PoPS has been made availble as an environment module in the `loos_group-AUDIT` folder on Esrum. This tutorial describes how you can load PoPS and associated tools, and run the program from start to finish. You can find the tutorial scripts at `/projects/loos_group-AUDIT/data/pops_tutorial/`
+PoPS has been made availble as an environment module in the `loos_group-AUDIT` folder on Esrum. This tutorial describes how you can load PoPS and associated tools, and run the program from start to finish. You can find the tutorial scripts at `/projects/loos_group-AUDIT/data/tutorials/pops_tutorial/`
 
 > ✏️ **_NOTE:_** Please note that you need to be added to the `loos_group-AUDIT` folder on [Esrum](https://cbmr-data.github.io/esrum/) to be able to access and run this tool as demonstrated here. If you have not already been added to this folder, then [contact me](#contact) for help. 
 
@@ -34,7 +34,7 @@ This step can be run using the script [step_0.sh](scripts/step_0.sh).
 
 ```
 munge_feature_directory.py \
- --gene_annot_path example_data/gene_annot_jun10.txt \
+ --gene_annot_path /projects/loos_group-AUDIT/data/tool_data/pops_data/gene_annot_jun10.txt \
  --save_prefix outputs/pops_features \
  --max_cols 500
 ```
@@ -57,7 +57,7 @@ This step can be run using the script [step_1.1.sh](scripts/step_1.1.sh).
 magma \
  --annotate \
  --snp-loc example_data/Schizophrenia_sumstats.txt \
- --gene-loc example_data/gene_annot_jun10_modified.txt \
+ --gene-loc /projects/loos_group-AUDIT/data/tool_data/pops_data/gene_annot_jun10_modified.txt \
  --out outputs/magma_annot_Schizophrenia
 ```
 | Flag | Description |
@@ -77,7 +77,7 @@ In the gene analysis step the gene p-values and other gene-level metrics are com
 This step can be run using the script [step_1.2.sh](scripts/step_1.2.sh). 
 ```
 magma \
- --bfile /projects/loos_group-AUDIT/data/magma_data/ref_panels/1000g/g1000_eur/g1000_eur \
+ --bfile /projects/loos_group-AUDIT/data/tool_data/magma_data/ref_panels/1000g/g1000_eur/g1000_eur \
  --gene-annot outputs/magma_annot_Schizophrenia.genes.annot \
  --pval example_data/Schizophrenia_sumstats.txt N=65967 \
  --gene-model snp-wise=mean \
@@ -86,7 +86,7 @@ magma \
 
 | Flag | Description |
 |-|-|
-| --bfile | LD reference panel - Here the LD reference panel used is 1000 genomes EUR population. Other MAGMA specific LD-panels are available at `/projects/loos_group-AUDIT/data/magma_data/ref_panels/`.|
+| --bfile | LD reference panel - Here the LD reference panel used is 1000 genomes EUR population. Other MAGMA specific LD-panels are available at `/projects/loos_group-AUDIT/data/tool_data/magma_data/ref_panels/`.|
 | --gene-annot | Gene annotation file from the output of the previous MAGMA annotation step. |
 | --pval | GWAS summary statistics - It must be a plain text data file with each row corresponding to a SNP. MAGMA will look for SNP IDs and p-values in the SNP and P column respectively. |
 | N | Sample size - Use `N`to specify sample size directly or `ncol` to specify sample size column in the summary statistics. |
@@ -99,17 +99,18 @@ PoPS has several flags that can be modified, refer to [this section](#loading-mo
 
 ```
 pops.py \
- --gene_annot_path example_data/gene_annot_jun10.txt \
+ --gene_annot_path /projects/loos_group-AUDIT/data/tool_data/pops_data/gene_annot_jun10.txt \
  --feature_mat_prefix outputs/pops_features \
  --num_feature_chunks 116 \
  --magma_prefix outputs/magma_gene_anal_Schizophrenia \
- --control_features_path example_data/features_jul17_control.txt \
- --out_prefix outputs/pops_out_Schizophrenia
+ --control_features_path /projects/loos_group-AUDIT/data/tool_data/pops_data/features_jul17_control.txt \
+ --out_prefix outputs/pops_out_Schizophrenia \
+ --verbose
 ```
 
 | Flag | Description |
 |-|-|
-| --gene_annot_path | Path to tab-separated gene annotation file. Must contain ENSGID, CHR, and TSS columns. Here we use gene_annot_jun10.txt, which is provided in the PoPS repository, and should be applicable to most tasks. |
+| --gene_annot_path | Path to tab-separated gene annotation file. Must contain ENSGID, CHR, and TSS columns. Here we use `gene_annot_jun10.txt`, which is provided in the PoPS repository, and should be applicable to most tasks. |
 | --feature_mat_prefix | Prefix to the split feature matrix files, such as those outputted by munge_feature_directory.py. There must be .mat.*.npy files, .cols.*.txt files, and a .rows.txt file |
 | --num_feature_chunks | The number of feature matrix chunks, such as those outputted by munge_feature_directory.py |
 | --magma_prefix | Prefix to the gene-level association statistics outputted by MAGMA. There must be a .genes.out file and a .genes.raw file |
